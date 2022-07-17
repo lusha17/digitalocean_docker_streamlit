@@ -11,6 +11,21 @@ from streamlit_webrtc import VideoProcessorBase, webrtc_streamer
 
 from config import CLASSES, WEBRTC_CLIENT_SETTINGS
 
+import threading
+
+import cv2
+from matplotlib import pyplot as plt
+
+lock = threading.Lock()
+img_container = {"img": None}
+
+
+def video_frame_callback(frame):
+    img = frame.to_ndarray(format="bgr24")
+    with lock:
+        img_container["img"] = img
+    return frame
+
 #изменим название страницы, отображаемое на вкладке браузера
 #set_page_config должна вызываться до всех функций streamlit
 st.set_page_config(
@@ -233,7 +248,9 @@ elif prediction_mode == 'Web camera':
         key="example", 
         video_processor_factory=VideoTransformer,
         rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
-        media_stream_constraints={"video": True, "audio": True})
+        media_stream_constraints={"video": True, "audio": True},
+        video_frame_callback=video_frame_callback
+    )
 
     # необходимо для того, чтобы объект VideoTransformer подхватил новые данные
     # после обновления страницы streamlit
