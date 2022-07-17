@@ -246,18 +246,18 @@ elif prediction_mode == 'Web camera':
     # создаем объект для вывода стрима с камеры
     ctx = webrtc_streamer(
         key="example", 
-        video_processor_factory=VideoTransformer,
         rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
         media_stream_constraints={"video": True, "audio": True},
         video_frame_callback=video_frame_callback
     )
-
+    #video_processor_factory=VideoTransformer,
+    #video_frame_callback=video_frame_callback
     # необходимо для того, чтобы объект VideoTransformer подхватил новые данные
     # после обновления страницы streamlit
-    if ctx.video_transformer:
-        ctx.video_transformer.model = model
-        ctx.video_transformer.rgb_colors = rgb_colors
-        ctx.video_transformer.target_class_ids = target_class_ids
+    #if ctx.video_transformer:
+    #    ctx.video_transformer.model = model
+    #    ctx.video_transformer.rgb_colors = rgb_colors
+    #    ctx.video_transformer.target_class_ids = target_class_ids
 
 # выведем список найденных классов при работе с изображением или список всех
 # выбранных классов при работе с видео
