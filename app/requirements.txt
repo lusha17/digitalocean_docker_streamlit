@@ -11,6 +11,6 @@ matplotlib==3.3.3
 tqdm==4.56.0
 PyYAML==5.3.1
 seaborn==0.11.1
-#protobuf==3.20.1
+protobuf==3.20.1
 click==7.1.2
 pyOpenSSL
