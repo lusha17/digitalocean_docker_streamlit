@@ -7,7 +7,7 @@ import pandas as pd
 import streamlit as st
 import matplotlib.colors as mcolors
 from PIL import Image
-from streamlit_webrtc import VideoTransformerBase, webrtc_streamer
+from streamlit_webrtc import VideoProcessorBase, webrtc_streamer
 
 from config import CLASSES, WEBRTC_CLIENT_SETTINGS
 
@@ -114,7 +114,7 @@ def get_legend_color(class_name : int):
     color = rgb_colors[index]
     return 'background-color: rgb({color[0]},{color[1]},{color[2]})'.format(color=color)
 
-class VideoTransformer(VideoTransformerBase):
+class VideoTransformer(VideoProcessorBase):
     """Компонент для создания стрима веб камеры"""
     def __init__(self):
         self.model = model
@@ -231,7 +231,7 @@ elif prediction_mode == 'Web camera':
     # создаем объект для вывода стрима с камеры
     ctx = webrtc_streamer(
         key="example", 
-        video_transformer_factory=VideoTransformer,
+        video_processor_factory =VideoTransformer,
         client_settings=WEBRTC_CLIENT_SETTINGS,)
 
     # необходимо для того, чтобы объект VideoTransformer подхватил новые данные
