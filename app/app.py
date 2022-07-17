@@ -20,11 +20,18 @@ lock = threading.Lock()
 img_container = {"img": None}
 
 
+import av
+
+#def video_frame_callback(frame):
+#    img = frame.to_ndarray(format="bgr24")
+#    with lock:
+#        img_container["img"] = img
+#    return frame
+
 def video_frame_callback(frame):
     img = frame.to_ndarray(format="bgr24")
-    with lock:
-        img_container["img"] = img
-    return frame
+    flipped = img[::-1,:,:] if flip else img
+    return av.VideoFrame.from_ndarray(flipped, format="bgr24")
 
 #изменим название страницы, отображаемое на вкладке браузера
 #set_page_config должна вызываться до всех функций streamlit
