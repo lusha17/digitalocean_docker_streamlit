@@ -5,12 +5,12 @@ torchvision==0.8.2+cpu
 opencv-python-headless==4.5.3.56
 Pillow==8.0.1
 pandas==1.2.1
-streamlit==1.1.0
-streamlit-webrtc==0.42.0
+streamlit
+streamlit-webrtc
 matplotlib==3.3.3
 tqdm==4.56.0
 PyYAML==5.3.1
 seaborn==0.11.1
-protobuf==3.20.1
+#protobuf==3.20.1
 click==7.1.2
 pyOpenSSL
