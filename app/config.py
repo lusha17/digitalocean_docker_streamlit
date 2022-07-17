@@ -1,20 +1,9 @@
 from streamlit_webrtc import ClientSettings
 
-CLASSES = [ 'person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 
-            'train', 'truck', 'boat', 'traffic light', 'fire hydrant', 
-            'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 
-            'horse', 'sheep', 'cow', 'elephant', 'bear', 'zebra', 'giraffe', 
-            'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee',
-            'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 
-            'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 
-            'bottle', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 
-            'banana', 'apple', 'sandwich', 'orange', 'broccoli', 'carrot', 
-            'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch', 
-            'potted plant', 'bed', 'dining table', 'toilet', 'tv', 'laptop', 
-            'mouse', 'remote', 'keyboard', 'cell phone', 'microwave', 'oven', 
-            'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 
-            'scissors', 'teddy bear', 'hair drier', 'toothbrush' ]
-
+#CLASSES = [ 'pistol' ]
+CLASSES = [ 'mask', 'nomask', 'person', 'pistol']
+#DICT_MODELS = {'mask': 'MASK', 'no_mask': 'MASK', 'person': 'MAIN', 'pistol': 'PISTOL'}
+#CLASSES_IDS = {'mask': 0, 'no_mask': 1, 'person': 0, 'pistol': 0}
 
 WEBRTC_CLIENT_SETTINGS = ClientSettings(
         rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},

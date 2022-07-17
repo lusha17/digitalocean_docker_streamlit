@@ -14,16 +14,16 @@ from config import CLASSES, WEBRTC_CLIENT_SETTINGS
 #изменим название страницы, отображаемое на вкладке браузера
 #set_page_config должна вызываться до всех функций streamlit
 st.set_page_config(
-    page_title="YOLOv5 demo",
+    page_title="Weapon Detection Demo",
 )
 
-st.title('YOLOv5 demo')
+st.title('Weapon Detection Demo')
 
 #region Functions
 # --------------------------------------------
 
 @st.cache(max_entries=2)
-def get_yolo5(model_type='s'):
+def get_yolo5():
     '''
     Возвращает модель YOLOv5 из Torch Hub типа `model_type`
 
@@ -37,10 +37,9 @@ def get_yolo5(model_type='s'):
     torch model
         torch-модель типа `<class 'models.common.autoShape'>`
     '''
-    return torch.hub.load('ultralytics/yolov5', 
-                          'yolov5{}'.format(model_type), 
-                          pretrained=True
-                          )
+    #return torch.hub.load('ultralytics/yolov5', 'yolov5{}'.format(model_type), pretrained=True)
+    #return torch.hub.load('ultralytics/yolov5', 'custom', path='last.pt', force_reload=True)  
+    return torch.hub.load('ultralytics/yolov5', 'custom', path='all.pt', force_reload=True)
 
 @st.cache(max_entries=10)
 def get_preds(img : np.ndarray) -> np.ndarray:
@@ -147,14 +146,10 @@ class VideoTransformer(VideoTransformerBase):
 #region Load model
 # ---------------------------------------------------
 
-model_type = st.sidebar.selectbox(
-    'Select model type',
-    ('s', 'm', 'l', 'x'),
-    index=1,
-    format_func=lambda s: s.upper())
+#model_type = st.sidebar.selectbox('Select model type',('s', 'm', 'l', 'x'),index=1,format_func=lambda s: s.upper())
 
 with st.spinner('Loading the model...'):
-    model = get_yolo5(model_type)
+    model = get_yolo5()
 st.success('Loading the model.. Done!')
 #endregion
 
@@ -168,8 +163,8 @@ prediction_mode = st.sidebar.radio(
     ('Single image', 'Web camera'),
     index=0)
     
-classes_selector = st.sidebar.multiselect('Select classes', 
-                                        CLASSES, default='person')
+#classes_selector = st.sidebar.multiselect('Select classes', CLASSES, default='pistol')
+classes_selector = st.sidebar.multiselect('Select classes', CLASSES, default='pistol')
 all_labels_chbox = st.sidebar.checkbox('All classes', value=False)
 
 
