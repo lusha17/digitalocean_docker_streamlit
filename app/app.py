@@ -231,8 +231,9 @@ elif prediction_mode == 'Web camera':
     # создаем объект для вывода стрима с камеры
     ctx = webrtc_streamer(
         key="example", 
-        video_processor_factory =VideoTransformer,
-        client_settings=WEBRTC_CLIENT_SETTINGS,)
+        video_processor_factory=VideoTransformer,
+        rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+        media_stream_constraints={"video": True, "audio": True})
 
     # необходимо для того, чтобы объект VideoTransformer подхватил новые данные
     # после обновления страницы streamlit
