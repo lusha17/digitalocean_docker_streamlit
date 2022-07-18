@@ -7,7 +7,7 @@ import pandas as pd
 import streamlit as st
 import matplotlib.colors as mcolors
 from PIL import Image
-from streamlit_webrtc import VideoProcessorBase, webrtc_streamer
+from streamlit_webrtc import VideoProcessorBase, webrtc_streamer, WebRtcMode
 
 from config import CLASSES, WEBRTC_CLIENT_SETTINGS
 
@@ -22,16 +22,16 @@ img_container = {"img": None}
 
 import av
 
-#def video_frame_callback(frame):
-#    img = frame.to_ndarray(format="bgr24")
-#    with lock:
-#        img_container["img"] = img
-#    return frame
-
 def video_frame_callback(frame):
     img = frame.to_ndarray(format="bgr24")
-    flipped = img[::-1,:,:] if flip else img
-    return av.VideoFrame.from_ndarray(flipped, format="bgr24")
+    #with lock:
+    #    img_container["img"] = img
+    return frame
+
+#def video_frame_callback(frame):
+#    img = frame.to_ndarray(format="bgr24")
+#    flipped = img[::-1,:,:] if flip else img
+#    return av.VideoFrame.from_ndarray(flipped, format="bgr24")
 
 #изменим название страницы, отображаемое на вкладке браузера
 #set_page_config должна вызываться до всех функций streamlit
@@ -249,13 +249,20 @@ if prediction_mode == 'Single image':
         st.image(img_draw, use_column_width=True)
 
 elif prediction_mode == 'Web camera':
-    
     # создаем объект для вывода стрима с камеры
+    #ctx = webrtc_streamer(
+    #    key="example", 
+    #    rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+    #    media_stream_constraints={"video": True, "audio": True},
+    #    video_frame_callback=video_frame_callback
+    #)
     ctx = webrtc_streamer(
         key="example", 
-        rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+        rtc_configuration={"iceServers": [{"urls": ["stun:stun.xten.com:3478"]}]},
+        mode=WebRtcMode.SENDRECV,
         media_stream_constraints={"video": True, "audio": True},
-        video_frame_callback=video_frame_callback
+        video_frame_callback=video_frame_callback,
+        async_processing=True
     )
     #video_processor_factory=VideoTransformer,
     #video_frame_callback=video_frame_callback
@@ -265,7 +272,6 @@ elif prediction_mode == 'Web camera':
     #    ctx.video_transformer.model = model
     #    ctx.video_transformer.rgb_colors = rgb_colors
     #    ctx.video_transformer.target_class_ids = target_class_ids
-
 # выведем список найденных классов при работе с изображением или список всех
 # выбранных классов при работе с видео
 detected_ids = set(detected_ids if detected_ids is not None else target_class_ids)
